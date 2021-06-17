@@ -106,13 +106,14 @@ class lightcone:
 
             # total number of halos in shell
             N = poisson(Nbar)
+            self.Nobj += N
 
             # mass of each halo sampled from distribution
             fN = uniform(size=N)
             M  = ngtmfunci(Nbar*fN)
 
-            print("  z, N, Mmin, Mmax: ","{:4.2f}".format(z),"{:9d}".format(N),"{:e}".format(M.min()),"{:e}".format(M.max()),
-                   end="\r", flush=True)
+            print("   z, N, Mmin, Mmax: ","{:4.2f}".format(z),"{:9d}".format(N),"{:9d}".format(Nobj),
+                  "{:e}".format(M.min()),"{:e}".format(M.max()), end="\r", flush=True)
 
             # distance sampled in volume
             fV    = uniform(size=N)
@@ -138,8 +139,6 @@ class lightcone:
             self.y = np.append(self.y, y).astype(np.float32)
             self.z = np.append(self.z, z).astype(np.float32)
 
-            self.Nobj += N
-
         return
 
     def write_pksc(self,filename):
@@ -160,15 +159,16 @@ class lightcone:
 
         chunksize = 10000000
         Nremain = self.Nobj
-        start = 0
+        end = 0
         remain = True
-        print("\n writing ",Nobj," halos")
+        print("\n writing",Nobj,"halos")
         while remain:
+            start = end
             end   = start + chunksize
-            print("  ",end, start, end="\r", flush=True)
             if end > Nobj:
                 remain = False
                 end = Nobj
+            print("  ", start, end, end="\r", flush=True)
             outdata = np.column_stack((x[start:end],y[start:end],z[start:end],
                                        x[start:end],y[start:end],z[start:end],
                                        R[start:end],
