@@ -162,7 +162,7 @@ class lightcone:
         Nremain = self.Nobj
         start = 0
         remain = True
-        print("\n writing ","{:9d}".format(Nobj)," halos")
+        print("\n writing ",Nobj," halos")
         while remain:
             end   = start + chunksize
             print("  ",end, start, end="\r", flush=True)
