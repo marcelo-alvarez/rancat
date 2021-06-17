@@ -91,11 +91,6 @@ class lightcone:
 
         Nz = int((zmax-zmin)/dz)
 
-        zws, Mminws = np.loadtxt('halo_mass_completion.txt',unpack=True)
-        Mminws /= co.h # Msun/h to Msun
-
-        Mminwsofz = interp1d(zws,Mminws)
-
         # loop over redshift shells
         for iz in np.arange(Nz):
 
@@ -107,7 +102,7 @@ class lightcone:
             ngtmfunc, ngtmfunci = self._getngtm(z,z0,z1,dndmfunc)
 
             # N(>Mmin in shell)
-            Nbar = ngtmfunc(Mminwsofz(z))
+            Nbar = ngtmfunc(Mmin)
 
             # total number of halos in shell
             N = poisson(Nbar)
