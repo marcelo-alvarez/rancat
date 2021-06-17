@@ -1,0 +1,3 @@
+1. git clone https://github.com/marcelo-alvarez/rancat
+2. cd rancat
+3. python test.py
