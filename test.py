@@ -7,7 +7,7 @@ fsky=0.01
 dz=0.1
 zmin=0
 zmax=4.5
-mmin=1e11
+mmin=1e13
 mmax=1e16
 
 # create function dndm(M,z) with input mass in Msun, and return units 1/Mpc^3/Msun
