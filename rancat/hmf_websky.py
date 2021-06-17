@@ -22,8 +22,7 @@ ns     = 0.965
 rho_mean    = 2.775e11 * omegam * h**2
 
 # load in power spectrum used for websky
-pkfile   = ('/global/cfs/cdirs/mp107/exgal/cib_dev/'+
-            'websky_hmf/planck2018_powerspectrum.dat')
+pkfile   = ('./planck2018_powerspectrum.dat')
 pk_data = np.loadtxt(pkfile)
 k       = pk_data[:,0]
 pk      = pk_data[:,1]*(2*np.pi)**3
