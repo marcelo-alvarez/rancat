@@ -1,3 +1,5 @@
 1. git clone https://github.com/marcelo-alvarez/rancat
 2. cd rancat
-3. python test.py
+3. pip install .
+
+Test script in test.py.
