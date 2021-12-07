@@ -7,4 +7,6 @@ setup(name='rancat',
       author='Marcelo Alvarez',
       license='MIT',
       packages=['rancat'],
+      package_dir={'rancat': 'rancat'},
+      package_data={'rancat': ['*.dat']},
       zip_safe=False)

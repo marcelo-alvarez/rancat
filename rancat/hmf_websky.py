@@ -215,10 +215,10 @@ def dndmofmz_tinker(mmin,mmax,zmin,zmax):
         Nz    = len(z)
         if(       nm != Nm
             or    nz != Nz
-            or dmmin  < eps
-            or dmmax  < eps
-            or dzmin  < eps
-            or dzmax  < eps):
+            or dmmin  > eps
+            or dmmax  > eps
+            or dzmin  > eps
+            or dzmax  > eps):
             print(" WARNING: will use a table with:",
                f"\n   mmin={mmni:.3e},mmax={mmxi:.3e},zmin={zmni:.3f},zmax={zmxi:.3f},nm={Nm},nz={Nz}",
                 "\n but values requested are:",
