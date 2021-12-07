@@ -3,7 +3,7 @@ import rancat.hmf_websky as hmfw
 import numpy as np
 import matplotlib.pyplot as plt
 
-fsky=0.01
+fsky=0.1
 dz=0.1
 zmin=0
 zmax=4.5

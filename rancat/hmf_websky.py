@@ -22,7 +22,9 @@ ns     = 0.965
 rho_mean    = 2.775e11 * omegam * h**2
 
 # load in power spectrum used for websky
-pkfile   = ('./planck2018_powerspectrum.dat')
+
+datapath = os.path.dirname(os.path.abspath(__file__))
+pkfile   = (datapath+'/planck2018_powerspectrum.dat')
 pk_data = np.loadtxt(pkfile)
 k       = pk_data[:,0]
 pk      = pk_data[:,1]*(2*np.pi)**3
@@ -171,14 +173,15 @@ def dndmofm_tinker(Mmin, Mmax, redshift):
 def dndmofmz_tinker(mmin,mmax,zmin,zmax):
 
     from os import path
+
+    dlogm = 0.05
+    dz    = 0.1
+    nm    = int((np.log10(mmax)-np.log10(mmin))/dlogm)+1
+    nz    = int((zmax-zmin)/dz)+1
+
     if not path.exists('dndmtab.npz'):
 
         print("\n creating table")
-        dlogm = 0.05
-        dz    = 0.1
-
-        nm = int((np.log10(mmax)-np.log10(mmin))/dlogm)+1
-        nz = int((zmax-zmin)/dz)+1
 
         m = np.logspace(np.log10(mmin),np.log10(mmax),nm)
         z = np.linspace(zmin,zmax,nz)
@@ -195,8 +198,33 @@ def dndmofmz_tinker(mmin,mmax,zmin,zmax):
         np.savez('dndmtab.npz',m=m,z=z,dndmofmz=dndmofmz)
     else:
         data = np.load('dndmtab.npz')
+
         m = data['m']
         z = data['z']
+
+        eps   = 1e-3
+        mmni  = m.min()
+        mmxi  = m.max()
+        zmni  = z.min()
+        zmxi  = z.max()
+        dmmin = abs(1.-mmin/mmni)
+        dmmax = abs(1.-mmax/mmxi)
+        dzmin = abs(1.-zmin/zmni)
+        dzmax = abs(1.-zmax/zmxi)
+        Nm    = len(m)
+        Nz    = len(z)
+        if(       nm != Nm
+            or    nz != Nz
+            or dmmin  < eps
+            or dmmax  < eps
+            or dzmin  < eps
+            or dzmax  < eps):
+            print(" WARNING: will use a table with:",
+               f"\n   mmin={mmni:.3e},mmax={mmxi:.3e},zmin={zmni:.3f},zmax={zmxi:.3f},nm={Nm},nz={Nz}",
+                "\n but values requested are:",
+               f"\n   mmin={mmin:.3e},mmax={mmax:.3e},zmin={zmin:.3f},zmax={zmax:.3f},nm={nm},nz={nz}",
+                  "\n delete dndmtab.npz to use the requested values")
+
         dndmofmz = data['dndmofmz']
 
     dndmofmzfunc_log = interp2d(np.log10(m),z,dndmofmz)

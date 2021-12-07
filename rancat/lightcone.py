@@ -112,7 +112,7 @@ class lightcone:
             fN = uniform(size=N)
             M  = ngtmfunci(Nbar*fN)
 
-            print("   z, N, Mmin, Mmax: ","{:4.2f}".format(z),"{:9d}".format(N),"{:9d}".format(Nobj),
+            print("   z, N, Mmin, Mmax: ","{:4.2f}".format(z),"{:9d}".format(N),"{:9d}".format(self.Nobj),
                   "{:e}".format(M.min()),"{:e}".format(M.max()), end="\r", flush=True)
 
             # distance sampled in volume
@@ -158,7 +158,6 @@ class lightcone:
         header.tofile(f)
 
         chunksize = 10000000
-        Nremain = self.Nobj
         end = 0
         remain = True
         print("\n writing",Nobj,"halos")
@@ -174,3 +173,4 @@ class lightcone:
                                        R[start:end],
                                        x[start:end],y[start:end],z[start:end]))
             outdata.tofile(f)
+        print("\n",end="\r", flush=True)
